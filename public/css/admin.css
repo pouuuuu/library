@@ -1,0 +1,339 @@
+.admin {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	padding: 2rem;
+	color: #fff;
+}
+
+.admin .card {
+	background: rgba(255, 255, 255, 0.08);
+	border-radius: 16px;
+	padding: 2rem;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(6px);
+}
+
+.admin form {
+	display: grid;
+	gap: 1rem;
+	width: 50%;
+}
+
+.admin form input {
+	padding: 5px, 0, 5px, 0;
+}
+
+.admin form.inline-form {
+	grid-template-columns: 1fr 1fr auto;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.admin table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 1rem;
+	table-layout: auto;
+}
+
+.admin table tbody {
+	overflow: visible;
+}
+
+.admin table th,
+.admin table td {
+	padding: 0.75rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin table th {
+	text-align: left;
+	font-weight: 600;
+}
+
+.feedback {
+	margin: 0 0 1rem;
+	padding: 0.75rem 1rem;
+	border-radius: 10px;
+	font-weight: 600;
+}
+
+.feedback.success {
+	background: rgba(46, 125, 50, 0.3);
+	color: #a5d6a7;
+}
+
+.feedback.error {
+	background: rgba(211, 47, 47, 0.3);
+	color: #ef9a9a;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 1.5rem;
+	padding: 1rem;
+}
+
+.pagination span {
+	color: #fff;
+	font-weight: 500;
+}
+
+/* Styles pour les formulaires inline d'édition */
+.admin table tr[id^="book-edit-"],
+.admin table tr[id^="film-edit-"] {
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.admin table tr[id^="book-edit-"] td,
+.admin table tr[id^="film-edit-"] td {
+	padding: 1.5rem;
+	border: none;
+	overflow: visible;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+.admin .edit-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem;
+	padding: 1.5rem;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(4px);
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+.admin .edit-form > div {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	min-width: 0;
+	overflow: visible;
+	max-width: 100%;
+}
+
+.admin .edit-form > div input,
+.admin .edit-form > div select,
+.admin .edit-form > div textarea {
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.admin .edit-form label {
+	color: var(--text-color);
+	font-weight: 500;
+	font-size: 0.9rem;
+	margin-bottom: 0.25rem;
+}
+
+.admin .edit-form input,
+.admin .edit-form select,
+.admin .edit-form textarea {
+	padding: 0.75rem 1rem;
+	background: rgba(24, 25, 37, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 8px;
+	color: var(--text-color);
+	font-family: inherit;
+	font-size: 0.95rem;
+	transition: all 0.2s;
+}
+
+.admin .edit-form select {
+	background-color: rgba(24, 25, 37, 0.95);
+	color: var(--text-color);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ecf9fb' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 1rem center;
+	padding-right: 2.5rem;
+}
+
+.admin .edit-form select option {
+	background-color: var(--secondary-bg-color);
+	color: var(--text-color);
+	padding: 0.75rem;
+}
+
+.admin .edit-form select option:checked {
+	background-color: var(--accent-color);
+	color: var(--text-color);
+}
+
+.admin .edit-form input:focus,
+.admin .edit-form select:focus,
+.admin .edit-form textarea:focus {
+	outline: none;
+	border-color: var(--accent-color);
+	background: rgba(35, 38, 55, 0.95);
+	box-shadow: 0 0 0 3px rgba(91, 99, 211, 0.2);
+}
+
+.admin .edit-form textarea {
+	resize: vertical;
+	min-height: 100px;
+}
+
+.admin .edit-form .form-actions {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 1rem;
+	margin-top: 0.5rem;
+	justify-content: flex-start;
+}
+
+/* Amélioration des boutons d'action dans le tableau */
+.admin table td .action-buttons {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.admin table td .inline-form {
+	display: inline-flex;
+	margin: 0;
+	gap: 0;
+}
+
+.admin table td button.button,
+.admin table td .inline-form button.button {
+	margin: 0;
+	padding: 0.5rem 1rem;
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+/* Style pour les formulaires de recherche */
+.admin .search-form {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+	margin-bottom: 1.5rem;
+	padding: 1rem;
+	background: rgba(255, 255, 255, 0.03);
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin .search-form input[type="text"] {
+	flex: 1;
+	padding: 0.75rem 1rem;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 8px;
+	color: var(--text-color);
+	font-family: inherit;
+	font-size: 0.95rem;
+	transition: all 0.2s;
+	min-width: 250px;
+}
+
+.admin .search-form input[type="text"]:focus {
+	outline: none;
+	border-color: var(--accent-color);
+	background: rgba(255, 255, 255, 0.12);
+	box-shadow: 0 0 0 3px rgba(91, 99, 211, 0.2);
+}
+
+.admin .search-form button.button {
+	margin: 0;
+}
+
+/* Amélioration des formulaires d'ajout */
+.admin .add-form {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1.5rem;
+	padding: 1.5rem;
+	background: rgba(255, 255, 255, 0.03);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	width: 100%;
+	max-width: 800px;
+}
+
+.admin .add-form > div {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.admin .add-form label {
+	color: var(--text-color);
+	font-weight: 500;
+	font-size: 0.95rem;
+	margin-bottom: 0.25rem;
+}
+
+.admin .add-form input,
+.admin .add-form select,
+.admin .add-form textarea {
+	padding: 0.75rem 1rem;
+	background: rgba(24, 25, 37, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 8px;
+	color: var(--text-color);
+	font-family: inherit;
+	font-size: 0.95rem;
+	width: 100%;
+	transition: all 0.2s;
+}
+
+.admin .add-form select {
+	background-color: rgba(24, 25, 37, 0.95);
+	color: var(--text-color);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ecf9fb' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 1rem center;
+	padding-right: 2.5rem;
+}
+
+.admin .add-form select option {
+	background-color: var(--secondary-bg-color);
+	color: var(--text-color);
+	padding: 0.75rem;
+}
+
+.admin .add-form select option:checked {
+	background-color: var(--accent-color);
+	color: var(--text-color);
+}
+
+.admin .add-form input:focus,
+.admin .add-form select:focus,
+.admin .add-form textarea:focus {
+	outline: none;
+	border-color: var(--accent-color);
+	background: rgba(35, 38, 55, 0.95);
+	box-shadow: 0 0 0 3px rgba(91, 99, 211, 0.2);
+}
+
+.admin .add-form textarea {
+	resize: vertical;
+	min-height: 100px;
+}
+
+.admin .add-form button[type="submit"] {
+	margin-top: 0.5rem;
+}

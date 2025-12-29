@@ -1,0 +1,103 @@
+body {
+	background-color: var(--bg-color);
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+}
+
+body::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: conic-gradient(
+			from 180deg at 50% -20%,
+			var(--secondary-bg-color) 2%,
+			var(--bg-color) 10%,
+			var(--bg-color) 90%,
+			var(--secondary-bg-color) 98%
+	);
+	z-index: -1;
+	opacity: 0;
+	animation: spotlight 1s ease-in forwards;
+}
+
+@keyframes spotlight {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+header {
+	flex: 0;
+}
+
+header a {
+	font-size: 0.8em;
+	display: flex;
+	align-items: center;
+	gap: 0.4em;
+	padding: 1.5rem;
+	width: max-content;
+	white-space: nowrap;
+}
+
+main {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+form h1 {
+	text-align: center;
+	margin-bottom: 4rem;
+}
+
+form label {
+	color: var(--secondary-text-color);
+	padding-bottom: 0.3rem;
+}
+
+form input {
+	width: 350px;
+	padding: 0.8rem;
+	font-size: 1rem;
+	border-radius: 0.8rem;
+	margin-bottom: 2rem;
+	background-color: hsl(from var(--bg-color) h s calc(l * 1.6));
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	color: var(--text-color);
+}
+
+form button {
+	padding: 0.8rem;
+	border-radius: 0.8rem;
+	font-size: 1rem;
+}
+
+form p {
+	text-align: center;
+	margin-block: 1.5rem 0.5rem;
+	color: var(--secondary-text-color);
+}
+
+form a {
+	display: inline-block;
+	text-align: center;
+	padding: 1rem;
+	color: var(--accent-color);
+	transition: color 0.2s;
+
+	&:hover {
+		color: var(--darker-accent-color);
+	}
+}
