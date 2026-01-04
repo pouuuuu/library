@@ -1167,9 +1167,10 @@ class Model
      */
     public function getTopBooks($limit = 20, $offset = 0, $sort = 'rating')
     {
-        $orderBy = "rating DESC, l.titre ASC";
-        if ($sort === 'popular') {
-            $orderBy = "nbEmprunts DESC, rating DESC";
+        $orderBy = "rating DESC, comment_count DESC";
+
+        if ($sort === 'comments') {
+            $orderBy = "comment_count DESC, rating DESC";
         }
 
         $sql = "
@@ -1178,7 +1179,7 @@ class Model
                 l.titre AS title,
                 l.couverture AS poster,
                 COALESCE((SELECT AVG(note) FROM Avis WHERE idLivre = l.idLivre), 0) as rating,
-                (SELECT COUNT(*) FROM Emprunts WHERE idLivre = l.idLivre) as nbEmprunts
+                (SELECT COUNT(*) FROM Avis WHERE idLivre = l.idLivre) as comment_count
             FROM Livres l
             WHERE l.couverture IS NOT NULL AND l.couverture != ''
             ORDER BY $orderBy

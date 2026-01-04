@@ -12,17 +12,12 @@ $startRank = $startRank ?? 1;
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOP Livres - SAÉ E-Library</title>
     <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/style.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/nav.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/top.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="<?= htmlspecialchars($publicBase) ?>/js/nav.js"></script>
-
     <style>
-        /* Style simple pour le menu de filtres */
         .top-filters { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; }
         .filter-btn {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -42,7 +37,7 @@ $startRank = $startRank ?? 1;
         <a href="<?= htmlspecialchars($indexUrl) ?>?route=home">E-Library</a>
         <ul>
             <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=home">Accueil</a></li>
-            <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=top" class="active" style="color: var(--text-color);">TOP</a></li>
+            <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=top" class="active">TOP</a></li>
             <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=nouveautes">Nouveautés</a></li>
             <li><button class="search-button">🔍</button></li>
         </ul>
@@ -65,19 +60,18 @@ $startRank = $startRank ?? 1;
 <main class="ranking-container">
     <div class="ranking-header" style="text-align: center; border: none;">
         <h1 style="margin-bottom: 0.5rem;">🏆 Classement des Livres</h1>
-        <p style="color: #888; margin-top: 0;">Découvrez les pépites de la bibliothèque</p>
     </div>
 
     <div class="top-filters">
         <a href="#" class="filter-btn <?= $sort === 'rating' ? 'active' : '' ?>" data-sort="rating">
             ⭐ Les mieux notés
         </a>
-        <a href="#" class="filter-btn <?= $sort === 'popular' ? 'active' : '' ?>" data-sort="popular">
-            🔥 Les plus populaires
+        <a href="#" class="filter-btn <?= $sort === 'comments' ? 'active' : '' ?>" data-sort="comments">
+            💬 Les plus commentés
         </a>
     </div>
 
-    <div id="loading-message">Chargement...</div>
+    <div id="loading-message" style="display:none; text-align:center;">Chargement...</div>
 
     <div class="ranking-list" id="ranking-list">
         <?php if (empty($resources)): ?>
@@ -95,12 +89,10 @@ $startRank = $startRank ?? 1;
                         <h3 class="rank-title"><?= htmlspecialchars($book['title']) ?></h3>
                     </div>
                     <div class="rank-score">
-                        <?php if ($sort === 'popular'): ?>
-                            <?= number_format($book['nbEmprunts']) ?>
-                            <small>Emprunts</small>
+                        <?php if ($sort === 'comments'): ?>
+                            <?= number_format($book['comment_count']) ?> <small>Avis</small>
                         <?php else: ?>
-                            <?= number_format($book['rating'], 1) ?>
-                            <small>Moyenne</small>
+                            ★ <?= number_format($book['rating'], 1) ?> <small>Moyenne</small>
                         <?php endif; ?>
                     </div>
                 </a>
@@ -111,7 +103,7 @@ $startRank = $startRank ?? 1;
     <div class="pagination-container">
         <div class="pagination" id="pagination">
             <?php if ($totalPages > 1): ?>
-                <a href="#" class="pagination-button disabled">← Précédent</a>
+                <span class="pagination-button disabled">← Précédent</span>
                 <span style="margin: 0 10px;">Page <?= $page ?> / <?= $totalPages ?></span>
                 <a href="#" class="pagination-button" data-page="<?= $page + 1 ?>">Suivant →</a>
             <?php endif; ?>
@@ -122,9 +114,6 @@ $startRank = $startRank ?? 1;
 <script id="auth-status" type="application/json">
         <?php echo json_encode(['isLoggedIn' => isLoggedIn(), 'loginUrl' => htmlspecialchars($indexUrl).'?route=auth/login']); ?>
     </script>
-<?= renderFlashMessagesScript() ?>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="<?= htmlspecialchars($publicBase) ?>/js/flash-messages.js"></script>
 <script src="<?= htmlspecialchars($publicBase) ?>/js/search.js"></script>
 <script src="<?= htmlspecialchars($publicBase) ?>/js/top.js"></script>
 </body>
