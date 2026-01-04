@@ -24,7 +24,9 @@ class TopController
         }
 
         $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['rating', 'comments']) ? $_GET['sort'] : 'rating';
+
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
@@ -42,7 +44,9 @@ class TopController
         header('Content-Type: application/json; charset=utf-8');
 
         $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+
         $sort = isset($_GET['sort']) && in_array($_GET['sort'], ['rating', 'comments']) ? $_GET['sort'] : 'rating';
+
         $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
         $offset = ($page - 1) * $limit;
 

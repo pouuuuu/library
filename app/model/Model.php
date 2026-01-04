@@ -1167,8 +1167,10 @@ class Model
      */
     public function getTopBooks($limit = 20, $offset = 0, $sort = 'rating')
     {
+        // Par défaut : tri par note
         $orderBy = "rating DESC, comment_count DESC";
 
+        // Si tri par commentaires demandé
         if ($sort === 'comments') {
             $orderBy = "comment_count DESC, rating DESC";
         }
@@ -1194,6 +1196,7 @@ class Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Assurez-vous d'avoir aussi cette fonction à la fin
     public function countTopBooks()
     {
         return (int)$this->pdo->query("SELECT COUNT(*) FROM Livres WHERE couverture IS NOT NULL AND couverture != ''")->fetchColumn();
