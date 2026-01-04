@@ -15,6 +15,7 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
     <!-- Toastify.js CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="<?= htmlspecialchars($publicBase) ?>/js/nav.js"></script>
+    <script src="<?= htmlspecialchars($publicBase) ?>/js/resources.js"></script>
 </head>
 
 <body>
@@ -113,13 +114,13 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
                         <?php if ($film->getSynopsis()): ?>
                         <div class="synopsis">
                             <h2>Synopsis</h2>
-                            <p><?= nl2br(htmlspecialchars($film->getSynopsis())) ?></p>
+                            <p class="truncated"><?= nl2br(htmlspecialchars($film->getSynopsis())) ?></p>
+                            <button id="read-more" class="button secondary-button">Afficher plus</button>
                         </div>
                         <?php endif; ?>
 
                         <?php if ($film->getTrailer()): ?>
                         <div class="trailer">
-                            <h2>Bande-annonce</h2>
                             <a href="<?= htmlspecialchars($film->getTrailer()) ?>" target="_blank" class="button main-button">
                                 Voir la bande-annonce
                             </a>

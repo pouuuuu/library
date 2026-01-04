@@ -52,7 +52,7 @@ nav ul:first-of-type li {
 }
 
 nav .search-button {
-    padding-inline: 1em;
+    padding: 1.5em;
     background-color: transparent;
     border: none;
     cursor: pointer;

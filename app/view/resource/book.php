@@ -15,6 +15,7 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
     <!-- Toastify.js CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="<?= htmlspecialchars($publicBase) ?>/js/nav.js"></script>
+    <script src="<?= htmlspecialchars($publicBase) ?>/js/resources.js"></script>
 </head>
 
 <body>
@@ -133,7 +134,8 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
                         <?php if ($book->getDescription()): ?>
                         <div class="description">
                             <h2>Description</h2>
-                            <p><?= nl2br(htmlspecialchars($book->getDescription())) ?></p>
+                            <p class="truncated"><?= nl2br(htmlspecialchars($book->getDescription())) ?></p>
+                            <button id="read-more" class="button secondary-button">Afficher plus</button>
                         </div>
                         <?php endif; ?>
                     </div>

@@ -1,94 +1,131 @@
 <?php
 $publicBase = defined('PUBLIC_BASE_URL') ? PUBLIC_BASE_URL : '/public';
 $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
+
+$resources = $resources ?? [];
+$page = $page ?? 1;
+$sort = $sort ?? 'rating';
+$totalPages = $totalPages ?? 1;
+$startRank = $startRank ?? 1;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOP - SAÉ E-Library</title>
+    <title>TOP Livres - SAÉ E-Library</title>
     <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/style.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/nav.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/home.css">
-    <!-- Toastify.js CSS -->
+    <link rel="stylesheet" href="<?= htmlspecialchars($publicBase) ?>/css/top.css">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="<?= htmlspecialchars($publicBase) ?>/js/nav.js"></script>
-</head>
 
+    <style>
+        /* Style simple pour le menu de filtres */
+        .top-filters { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; }
+        .filter-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 20px; border-radius: 30px; color: #aaa; cursor: pointer;
+            text-decoration: none; transition: all 0.3s; font-weight: 500;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .filter-btn.active {
+            background: var(--accent-color, #6c5ce7); color: white; border-color: var(--accent-color, #6c5ce7);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+    </style>
+</head>
 <body>
-    <header>
-        <nav>
-            <a href="<?= htmlspecialchars($indexUrl) ?>?route=home">E-Library</a>
-            <ul>
-                <li>
-                    <a href="<?= htmlspecialchars($indexUrl) ?>?route=home">Accueil</a>
-                </li>
-                <li>
-                    <a href="<?= htmlspecialchars($indexUrl) ?>?route=top">TOP</a>
-                </li>
-                <li>
-                    <a href="<?= htmlspecialchars($indexUrl) ?>?route=nouveautes">Nouveautés</a>
-                </li>
-                <li>
-                    <button class="search-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-                            <path
-                                d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                        </svg>
-                    </button>
-                </li>
-            </ul>
-            <ul>
-                <?php if (empty($_SESSION['user'])): ?>
+<header>
+    <nav>
+        <a href="<?= htmlspecialchars($indexUrl) ?>?route=home">E-Library</a>
+        <ul>
+            <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=home">Accueil</a></li>
+            <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=top" class="active" style="color: var(--text-color);">TOP</a></li>
+            <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=nouveautes">Nouveautés</a></li>
+            <li><button class="search-button">🔍</button></li>
+        </ul>
+        <ul>
+            <?php if (empty($_SESSION['user'])): ?>
                 <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=auth/login" class="button secondary-button">Connexion</a></li>
                 <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=auth/signup" class="button main-button">Inscription</a></li>
-                <?php else: ?>
-                <li id="session-user">Bonjour, <?= htmlspecialchars($_SESSION['user']['username']) ?></li>
+            <?php else: ?>
+                <li>Bonjour, <?= htmlspecialchars($_SESSION['user']['username']) ?></li>
                 <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=dashboard" class="button secondary-button">Dashboard</a></li>
-                <?php if (($_SESSION['user']['role'] ?? '') === 'admin'): ?>
-                <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=admin" class="button secondary-button">Administration</a></li>
-                <?php endif; ?>
-                <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=auth/logout" class="button main-button">Se déconnecter</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-        <div class="search-bar hidden">
-            <label>
-                <input type="search" placeholder="Rechercher un film, un livre..." data-search-url="<?= htmlspecialchars($indexUrl) ?>">
-            </label>
+                <li><a href="<?= htmlspecialchars($indexUrl) ?>?route=auth/logout" class="button main-button">Déconnexion</a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+    <div class="search-bar hidden">
+        <label><input type="search" placeholder="Rechercher..." data-search-url="<?= htmlspecialchars($indexUrl) ?>"></label>
+    </div>
+</header>
+
+<main class="ranking-container">
+    <div class="ranking-header" style="text-align: center; border: none;">
+        <h1 style="margin-bottom: 0.5rem;">🏆 Classement des Livres</h1>
+        <p style="color: #888; margin-top: 0;">Découvrez les pépites de la bibliothèque</p>
+    </div>
+
+    <div class="top-filters">
+        <a href="#" class="filter-btn <?= $sort === 'rating' ? 'active' : '' ?>" data-sort="rating">
+            ⭐ Les mieux notés
+        </a>
+        <a href="#" class="filter-btn <?= $sort === 'popular' ? 'active' : '' ?>" data-sort="popular">
+            🔥 Les plus populaires
+        </a>
+    </div>
+
+    <div id="loading-message">Chargement...</div>
+
+    <div class="ranking-list" id="ranking-list">
+        <?php if (empty($resources)): ?>
+            <p style="text-align: center; color: #888;">Aucun livre trouvé.</p>
+        <?php else: ?>
+            <?php foreach ($resources as $index => $book): ?>
+                <?php $rank = $startRank + $index; ?>
+                <a href="<?= htmlspecialchars($indexUrl) ?>?book=<?= $book['id'] ?>" class="ranking-item rank-<?= $rank ?>">
+                    <div class="rank-number">#<?= $rank ?></div>
+                    <img src="<?= htmlspecialchars($book['poster'] ?? '/public/img/default-cover.png') ?>"
+                         alt="<?= htmlspecialchars($book['title']) ?>"
+                         class="rank-poster"
+                         onerror="this.src='<?= htmlspecialchars($publicBase) ?>/img/default-cover.png'">
+                    <div class="rank-info">
+                        <h3 class="rank-title"><?= htmlspecialchars($book['title']) ?></h3>
+                    </div>
+                    <div class="rank-score">
+                        <?php if ($sort === 'popular'): ?>
+                            <?= number_format($book['nbEmprunts']) ?>
+                            <small>Emprunts</small>
+                        <?php else: ?>
+                            <?= number_format($book['rating'], 1) ?>
+                            <small>Moyenne</small>
+                        <?php endif; ?>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <div class="pagination-container">
+        <div class="pagination" id="pagination">
+            <?php if ($totalPages > 1): ?>
+                <a href="#" class="pagination-button disabled">← Précédent</a>
+                <span style="margin: 0 10px;">Page <?= $page ?> / <?= $totalPages ?></span>
+                <a href="#" class="pagination-button" data-page="<?= $page + 1 ?>">Suivant →</a>
+            <?php endif; ?>
         </div>
-    </header>
-    <main>
-        <section id="bot">
-            <h1>TOP - Ressources les plus populaires</h1>
-            <div class="catalog">
-                <!-- Les ressources TOP seront affichées ici -->
-                <p>Cette page affichera les ressources les plus populaires.</p>
-            </div>
-        </section>
-    </main>
-    <footer>
-    </footer>
-<!-- Transmettre le statut de connexion à JavaScript -->
+    </div>
+</main>
+
 <script id="auth-status" type="application/json">
-    <?php
-    // Vérifier explicitement le statut de connexion avec la fonction helper
-    // pour être sûr d'utiliser la même logique partout
-    $userIsLoggedIn = isLoggedIn();
-    echo json_encode([
-        'isLoggedIn' => (bool)$userIsLoggedIn, // Forcer en booléen explicite pour JSON
-        'loginUrl' => htmlspecialchars($indexUrl) . '?route=auth/login'
-    ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
-    ?>
-</script>
+        <?php echo json_encode(['isLoggedIn' => isLoggedIn(), 'loginUrl' => htmlspecialchars($indexUrl).'?route=auth/login']); ?>
+    </script>
 <?= renderFlashMessagesScript() ?>
-<!-- Toastify.js JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="<?= htmlspecialchars($publicBase) ?>/js/flash-messages.js"></script>
 <script src="<?= htmlspecialchars($publicBase) ?>/js/search.js"></script>
+<script src="<?= htmlspecialchars($publicBase) ?>/js/top.js"></script>
 </body>
-
 </html>
-

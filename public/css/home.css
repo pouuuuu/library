@@ -74,9 +74,8 @@ main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 1.3lh;
-	border-radius: 1.3lh;
-	padding-inline: 7px;
+	border-radius: 100px;
+	padding: 0.1em 7px;
 }
 
 /* Debut of carousel style */

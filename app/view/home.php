@@ -151,7 +151,7 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
 						</a>
 				<?php }
 				}?>
-                <a id="view-more" href="." class="button main-button">Voir Plus de Ressources</a>
+                <a id="view-more" href="<?= htmlspecialchars($indexUrl) ?>?route=top" class="button main-button">Voir Plus de Ressources</a>
 
 
             </aside>

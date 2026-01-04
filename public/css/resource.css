@@ -109,6 +109,15 @@
     color: var(--secondary-text-color);
 }
 
+p.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* ============================================
    SECTION AVIS - Design cohérent avec le thème sombre
    ============================================ */
@@ -232,7 +241,6 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
-    gap: 0.75rem;
     padding: 0.5rem 0;
 }
 
@@ -247,6 +255,10 @@
     transition: all 0.2s ease;
     line-height: 1;
     font-family: Arial, sans-serif;
+}
+
+.star-rating-input .star-label:not(:first-of-type) {
+    padding-right: 0.75rem;
 }
 
 .star-rating-input .star-label:hover,
@@ -272,7 +284,7 @@
     font-size: 1rem;
     background: var(--bg-color);
     color: var(--text-color);
-    transition: all 0.2s ease;
+    transition: outline 0.2s ease, border-color 0.2s ease, outline 0.2s ease;
 }
 
 .review-form input[type="text"]:focus,
