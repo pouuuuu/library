@@ -134,22 +134,20 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
         <!-- Section Avis -->
         <section class="reviews-section">
             <h2>Avis des utilisateurs</h2>
-            
+
             <!-- Note moyenne -->
             <?php if ($rating['count'] > 0): ?>
-            <div class="average-rating">
-                <p><strong>Note moyenne :</strong> 
-                    <span class="stars">
-                        <?php 
-                        $avgNote = round($rating['average']);
-                        for ($i = 1; $i <= 5; $i++): 
-                        ?>
-                            <span class="star <?= $i <= $avgNote ? 'filled' : '' ?>">★</span>
-                        <?php endfor; ?>
+                <div class="average-rating">
+                    <p><strong>Note moyenne :</strong>
+                        <span class="stars" style="--rating: <?= $rating['average'] ?>;">
+                        <span class="stars-filled">★ ★ ★ ★ ★</span>
+                        <span class="stars-empty">★ ★ ★ ★ ★</span>
                     </span>
-                    <span class="rating-text"><?= number_format($rating['average'], 1) ?>/5 (<?= $rating['count'] ?> avis)</span>
-                </p>
-            </div>
+                        <span class="rating-text">
+                        <?= number_format($rating['average'], 1) ?>/5 (<?= $rating['count'] ?> avis)
+                    </span>
+                    </p>
+                </div>
             <?php else: ?>
             <p class="no-reviews">Aucun avis pour le moment. Soyez le premier à laisser un avis !</p>
             <?php endif; ?>

@@ -87,3 +87,15 @@
 .pagination-button.disabled { opacity: 0.5; pointer-events: none; }
 
 #loading-message { text-align: center; padding: 20px; color: #888; display: none; }
+
+.top-filters { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap; }
+.filter-btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 20px; border-radius: 30px; color: #aaa; cursor: pointer;
+    text-decoration: none; transition: all 0.3s; font-weight: 500;
+}
+.filter-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.filter-btn.active {
+    background: var(--accent-color, #6c5ce7); color: white; border-color: var(--accent-color, #6c5ce7);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}

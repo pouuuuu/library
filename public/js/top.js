@@ -67,11 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const posterUrl = resource.poster || '/public/img/default-cover.png';
 
             let scoreHtml = '';
-            // GESTION DU TRI COMMENTAIRES
+
             if (sortType === 'comments') {
-                scoreHtml = `${resource.comment_count} <small>Avis</small>`;
+                scoreHtml = `<span style="font-size:1.2rem; font-weight:bold; color:#6c5ce7;">${resource.comment_count}</span> <small>Avis</small>`;
+            } else if (sortType === 'popular') {
+                scoreHtml = `<span style="font-size:1.2rem; font-weight:bold; color:#e17055;">${resource.borrow_count}</span> <small>Emprunts</small>`;
             } else {
-                scoreHtml = `★ ${parseFloat(resource.rating).toFixed(1)} <small>Moyenne</small>`;
+                scoreHtml = `<span style="font-size:1.2rem; font-weight:bold; color:#FFD700;">★ ${parseFloat(resource.rating).toFixed(1)}</span> <small>Moyenne</small>`;
             }
 
             item.innerHTML = `
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="rank-info">
                     <div class="rank-title">${escapeHtml(resource.title)}</div>
                 </div>
-                <div class="rank-score">
+                <div class="rank-score" style="text-align:right;">
                     ${scoreHtml}
                 </div>
             `;

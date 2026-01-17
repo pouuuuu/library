@@ -164,23 +164,30 @@ p.truncated {
 
 /* Système d'étoiles amélioré - Plus lisible */
 .stars {
-    display: inline-flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.star {
+    position: relative;
+    display: inline-block;
     font-size: 1.75rem;
-    color: var(--third-text-color);
-    transition: all 0.2s ease;
     line-height: 1;
-    /* Utilisation d'un caractère étoile plus visible */
     font-family: Arial, sans-serif;
 }
 
-.star.filled {
-    color: #ffd700; /* Or pour les étoiles pleines - plus visible sur fond sombre */
+/* Étoiles vides */
+.stars-empty {
+    color: var(--third-text-color);
+}
+
+/* Étoiles pleines */
+.stars-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ffd700;
     text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+
+    /* Calcul automatique du remplissage */
+    width: calc(var(--rating) / 5 * 100%);
 }
 
 .rating-text {

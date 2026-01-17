@@ -231,7 +231,7 @@ class Model
             f.poster AS poster,
             f.nbEmprunts AS nbBorrowings,
             tf.nomTypeFilm AS type,
-            AVG(a.note) AS rating
+            ROUND(AVG(a.note), 1) AS rating
         FROM Films f
             LEFT JOIN TypeFilm tf ON tf.idTypeFilm = f.idTypeFilm
             LEFT JOIN Avis a ON a.idFilm = f.idFilm
@@ -248,7 +248,7 @@ class Model
              l.couverture AS poster,
              l.nbEmprunts AS nbBorrowings,
              tl.nomTypeLivre AS type,
-             AVG(a.note) AS rating
+             ROUND(AVG(a.note), 1) AS rating
         FROM Livres l
             LEFT JOIN TypeLivre tl ON tl.idTypeLivre = l.idTypeLivre
             LEFT JOIN Avis a ON a.idLivre = l.idLivre
@@ -1167,12 +1167,12 @@ class Model
      */
     public function getTopBooks($limit = 20, $offset = 0, $sort = 'rating')
     {
-        // Par défaut : tri par note
         $orderBy = "rating DESC, comment_count DESC";
 
-        // Si tri par commentaires demandé
         if ($sort === 'comments') {
             $orderBy = "comment_count DESC, rating DESC";
+        } elseif ($sort === 'popular') {
+            $orderBy = "borrow_count DESC, rating DESC";
         }
 
         $sql = "
@@ -1181,7 +1181,9 @@ class Model
                 l.titre AS title,
                 l.couverture AS poster,
                 COALESCE((SELECT AVG(note) FROM Avis WHERE idLivre = l.idLivre), 0) as rating,
-                (SELECT COUNT(*) FROM Avis WHERE idLivre = l.idLivre) as comment_count
+                (SELECT COUNT(*) FROM Avis WHERE idLivre = l.idLivre) as comment_count,
+                -- AJOUT : On compte le nombre d'emprunts
+                (SELECT COUNT(*) FROM Emprunts WHERE idLivre = l.idLivre) as borrow_count
             FROM Livres l
             WHERE l.couverture IS NOT NULL AND l.couverture != ''
             ORDER BY $orderBy
@@ -1196,7 +1198,6 @@ class Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Assurez-vous d'avoir aussi cette fonction à la fin
     public function countTopBooks()
     {
         return (int)$this->pdo->query("SELECT COUNT(*) FROM Livres WHERE couverture IS NOT NULL AND couverture != ''")->fetchColumn();

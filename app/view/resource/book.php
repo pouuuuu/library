@@ -65,7 +65,7 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
     <main class="resource-detail">
         <div class="resource-header">
             <a href="<?= htmlspecialchars($indexUrl) ?>?route=home" class="back-link">← Retour au catalogue</a>
-            
+
             <div class="resource-content">
                 <div class="resource-poster">
                     <?php if ($book->getPoster()): ?>
@@ -146,20 +146,18 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
         <!-- Section Avis -->
         <section class="reviews-section">
             <h2>Avis des utilisateurs</h2>
-            
+
             <!-- Note moyenne -->
             <?php if ($rating['count'] > 0): ?>
             <div class="average-rating">
-                <p><strong>Note moyenne :</strong> 
-                    <span class="stars">
-                        <?php 
-                        $avgNote = round($rating['average']);
-                        for ($i = 1; $i <= 5; $i++): 
-                        ?>
-                            <span class="star <?= $i <= $avgNote ? 'filled' : '' ?>">★</span>
-                        <?php endfor; ?>
+                <p><strong>Note moyenne :</strong>
+                    <span class="stars" style="--rating: <?= $rating['average'] ?>;">
+                        <span class="stars-filled">★ ★ ★ ★ ★</span>
+                        <span class="stars-empty">★ ★ ★ ★ ★</span>
                     </span>
-                    <span class="rating-text"><?= number_format($rating['average'], 1) ?>/5 (<?= $rating['count'] ?> avis)</span>
+                    <span class="rating-text">
+                        <?= number_format($rating['average'], 1) ?>/5 (<?= $rating['count'] ?> avis)
+                    </span>
                 </p>
             </div>
             <?php else: ?>
@@ -175,12 +173,12 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
                     <?php if ($userAvis): ?>
                     <input type="hidden" name="idAvis" value="<?= htmlspecialchars($userAvis['idAvis']) ?>">
                     <?php endif; ?>
-                    
+
                     <div class="form-group">
                         <label for="note">Note (1 à 5 étoiles) :</label>
                         <div class="star-rating-input">
                             <?php for ($i = 5; $i >= 1; $i--): ?>
-                            <input type="radio" name="note" id="note<?= $i ?>" value="<?= $i ?>" 
+                            <input type="radio" name="note" id="note<?= $i ?>" value="<?= $i ?>"
                                    <?= $userAvis && (int)$userAvis['note'] === $i ? 'checked' : '' ?> required>
                             <label for="note<?= $i ?>" class="star-label">★</label>
                             <?php endfor; ?>
@@ -189,14 +187,14 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
 
                     <div class="form-group">
                         <label for="objet">Titre de l'avis (optionnel) :</label>
-                        <input type="text" name="objet" id="objet" 
-                               value="<?= $userAvis ? htmlspecialchars($userAvis['objet'] ?? '') : '' ?>" 
+                        <input type="text" name="objet" id="objet"
+                               value="<?= $userAvis ? htmlspecialchars($userAvis['objet'] ?? '') : '' ?>"
                                maxlength="100" placeholder="Ex: Excellent livre !">
                     </div>
 
                     <div class="form-group">
                         <label for="text">Votre commentaire :</label>
-                        <textarea name="text" id="text" rows="5" required 
+                        <textarea name="text" id="text" rows="5" required
                                   placeholder="Partagez votre avis sur ce livre..."><?= $userAvis ? htmlspecialchars($userAvis['text'] ?? '') : '' ?></textarea>
                     </div>
 
@@ -232,9 +230,9 @@ $indexUrl = defined('APP_INDEX_URL') ? APP_INDEX_URL : 'index.php';
                             <strong><?= htmlspecialchars($unAvis['pseudo']) ?></strong>
                         </div>
                         <div class="review-rating" aria-label="Note : <?= (int)$unAvis['note'] ?>/5">
-                            <?php 
+                            <?php
                             $note = (int)$unAvis['note'];
-                            for ($i = 1; $i <= 5; $i++): 
+                            for ($i = 1; $i <= 5; $i++):
                             ?>
                                 <span class="star <?= $i <= $note ? 'filled' : '' ?>" aria-hidden="true">★</span>
                             <?php endfor; ?>
